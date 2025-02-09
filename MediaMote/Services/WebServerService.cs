@@ -51,7 +51,7 @@ namespace MediaMote.Services
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
                         webBuilder.UseKestrel()
-                            .UseUrls("http://localhost:5000") // Change the URL and port as necessary.
+                            .UseUrls("http://0.0.0.0:5000") // Change the URL and port as necessary.
                             .Configure(app =>
                             {
                                 // Register default files first. This will rewrite "/" to "/index.html" if index.html exists.
