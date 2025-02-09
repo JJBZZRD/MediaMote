@@ -1,2 +1,2 @@
 # MediaMote
-MediaMote is a Windows tray application that simulates AVRCP commands to remotely control media playback and system volume via Bluetooth.
+MediaMote is a Windows tray application that provides a local web interface for adjusting computer volume and interacting with media keys.
