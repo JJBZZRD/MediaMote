@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <Target Name="CopyReactBuild" AfterTargets="Build">
+    <ItemGroup>
+      <ReactBuildFiles Include="react-app\build\**\*" />
+    </ItemGroup>
+    <Copy 
+      SourceFiles="@(ReactBuildFiles)" 
+      DestinationFolder="$(OutputPath)react-app\build\%(RecursiveDir)" 
+      SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

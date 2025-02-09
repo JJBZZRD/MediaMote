@@ -1,0 +1,5 @@
+.vs/
+.cursor/
+bin/
+obj/
+react-app/build/
