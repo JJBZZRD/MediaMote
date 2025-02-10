@@ -15,10 +15,11 @@ import AddIcon from '@mui/icons-material/Add';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { getVolume, setVolume } from './api/volumeApi';
 
 function App() {
   // State for controlling the volume slider value
-  const [volume, setVolume] = React.useState(50);
+  const [volume, setLocalVolume] = React.useState(50);
 
   /**
    * Handle slider value changes
@@ -26,22 +27,42 @@ function App() {
    * @param {object} event The event object
    * @param {number} newValue The new slider value
    */
-  const handleVolumeChange = (event, newValue) => {
-    setVolume(newValue);
+  const handleVolumeChange = async (event, newValue) => {
+    const volumeScalar = newValue / 100;
+    try {
+      await setVolume(volumeScalar);
+      setLocalVolume(newValue);
+    } catch (error) {
+      console.error('Error setting volume:', error);
+    }
   };
 
   /**
    * Decrement the volume, ensuring it does not go below 0.
    */
-  const handleDecrementVolume = () => {
-    setVolume((prevVolume) => Math.max(0, prevVolume - 1));
+  const handleDecrementVolume = async () => {
+    const newVolume = Math.max(0, volume - 5);
+    const volumeScalar = newVolume / 100;
+    try {
+      await setVolume(volumeScalar);
+      setLocalVolume(newVolume);
+    } catch (error) {
+      console.error('Error decrementing volume:', error);
+    }
   };
 
   /**
    * Increment the volume, ensuring it does not exceed 100.
    */
-  const handleIncrementVolume = () => {
-    setVolume((prevVolume) => Math.min(100, prevVolume + 1));
+  const handleIncrementVolume = async () => {
+    const newVolume = Math.min(100, volume + 5);
+    const volumeScalar = newVolume / 100;
+    try {
+      await setVolume(volumeScalar);
+      setLocalVolume(newVolume);
+    } catch (error) {
+      console.error('Error incrementing volume:', error);
+    }
   };
 
   return (
