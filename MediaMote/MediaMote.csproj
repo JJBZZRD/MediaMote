@@ -32,6 +32,13 @@
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="react-app\build\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
   <Target Name="CopyReactBuild" AfterTargets="Build">
     <ItemGroup>
       <ReactBuildFiles Include="react-app\build\**\*" />
