@@ -60,9 +60,11 @@ namespace MediaMote.Services
                                 services.AddControllers();
                                 // Register the system volume service for dependency injection.
                                 services.AddSingleton<SystemVolumeService>();
+                                services.AddSingleton<SystemPlaybackService>();
                             })
                             .Configure(app =>
                             {
+
                                 // Serve static and default files for your React app.
                                 app.UseDefaultFiles(new DefaultFilesOptions
                                 {
