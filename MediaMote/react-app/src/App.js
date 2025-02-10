@@ -5,10 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import VolumeControl from './components/VolumeControl';
-import IconButton from '@mui/material/IconButton';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import PlaybackControl from './components/PlaybackControl';
 
 function App() {
   return (
@@ -45,17 +42,7 @@ function App() {
         }}
       >
         <VolumeControl />
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-          <IconButton aria-label="previous">
-            <SkipPreviousIcon />
-          </IconButton>
-          <IconButton aria-label="play/pause">
-            <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-          </IconButton>
-          <IconButton aria-label="next">
-            <SkipNextIcon />
-          </IconButton>
-        </Box>
+        <PlaybackControl />
       </Box>
     </Box>
   );
