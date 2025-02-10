@@ -12,14 +12,15 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
   <Target Name="CopyReactBuild" AfterTargets="Build">
     <ItemGroup>
       <ReactBuildFiles Include="react-app\build\**\*" />
     </ItemGroup>
-    <Copy 
-      SourceFiles="@(ReactBuildFiles)" 
-      DestinationFolder="$(OutputPath)react-app\build\%(RecursiveDir)" 
-      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(ReactBuildFiles)" DestinationFolder="$(OutputPath)react-app\build\%(RecursiveDir)" SkipUnchangedFiles="true" />
   </Target>
 
 </Project>
