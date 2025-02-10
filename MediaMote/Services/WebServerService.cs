@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using MediaMote.Services;
 
 namespace MediaMote.Services
 {
@@ -51,21 +53,33 @@ namespace MediaMote.Services
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
                         webBuilder.UseKestrel()
-                            .UseUrls("http://0.0.0.0:5000") // Change the URL and port as necessary.
+                            .UseUrls("http://0.0.0.0:5000")
+                            .ConfigureServices(services =>
+                            {
+                                // Enable API controllers.
+                                services.AddControllers();
+                                // Register the system volume service for dependency injection.
+                                services.AddSingleton<SystemVolumeService>();
+                            })
                             .Configure(app =>
                             {
-                                // Register default files first. This will rewrite "/" to "/index.html" if index.html exists.
+                                // Serve static and default files for your React app.
                                 app.UseDefaultFiles(new DefaultFilesOptions
                                 {
                                     FileProvider = new PhysicalFileProvider(_webRoot),
                                     RequestPath = ""
                                 });
-
-                                // Then register static files middleware to serve the files.
                                 app.UseStaticFiles(new StaticFileOptions
                                 {
                                     FileProvider = new PhysicalFileProvider(_webRoot),
                                     RequestPath = ""
+                                });
+
+                                // Enable routing so that API endpoints are available.
+                                app.UseRouting();
+                                app.UseEndpoints(endpoints =>
+                                {
+                                    endpoints.MapControllers();
                                 });
 
                                 // Fallback middleware for client-side routing.
@@ -88,7 +102,6 @@ namespace MediaMote.Services
             }
             catch (Exception ex)
             {
-                // Log or handle exceptions appropriately.
                 throw new Exception("Failed to start the web server.", ex);
             }
         }
