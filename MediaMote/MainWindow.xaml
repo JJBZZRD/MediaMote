@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaMote"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="MediaMote" Height="450" Width="800"
+        Style="{StaticResource MaterialDesignWindow}">
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- Left-hand Side: Settings -->
+        <StackPanel Grid.Column="0" Margin="16">
+            <TextBlock Text="Settings"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+            <!-- A Material Design styled TextBox with a hint for "Server Port" -->
+            <TextBox materialDesign:HintAssist.Hint="Server Port"
+                     Width="200"
+                     Margin="0,0,0,10"/>
+        </StackPanel>
+        <!-- Right-hand Side: QR Code -->
+        <StackPanel Grid.Column="1" Margin="16">
+            <TextBlock Text="QR Code"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+            <!-- Blank area for future QR Code content -->
+        </StackPanel>
     </Grid>
 </Window>
