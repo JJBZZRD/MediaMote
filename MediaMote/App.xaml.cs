@@ -2,6 +2,7 @@
 using System.Windows;
 using WinForms = System.Windows.Forms;
 using System.Drawing;      // Requires reference to System.Drawing
+using MediaMote.Services;
 
 namespace MediaMote
 {
@@ -13,11 +14,12 @@ namespace MediaMote
         private WinForms.NotifyIcon _notifyIcon;
         private MainWindow _mainWindow;
         private bool _exitRequested = false;
+        private WebServerService _webServerService;
 
         /// <summary>
         /// Handles application startup by initializing the tray icon.
         /// </summary>
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             // Create the tray icon.
             _notifyIcon = new WinForms.NotifyIcon
@@ -40,6 +42,18 @@ namespace MediaMote
 
             // Optional: Open the window when the tray icon is double-clicked.
             _notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
+
+            // Start the embedded web server immediately.
+            var webRoot = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "react-app/build");
+            _webServerService = new WebServerService(webRoot);
+            try
+            {
+                await _webServerService.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error starting web server: {ex.Message}");
+            }
 
             // Do not show the MainWindow automatically.
         }
@@ -80,7 +94,7 @@ namespace MediaMote
         /// <summary>
         /// Exits the application when the tray's Exit menu item is clicked.
         /// </summary>
-        private void ExitApplication()
+        private async void ExitApplication()
         {
             _exitRequested = true;
             // Close the main window if it exists.
@@ -91,6 +105,12 @@ namespace MediaMote
             // Clean up the tray icon.
             _notifyIcon.Visible = false;
             _notifyIcon.Dispose();
+
+            if (_webServerService != null)
+            {
+                await _webServerService.StopAsync();
+            }
+
             Shutdown();
         }
 
